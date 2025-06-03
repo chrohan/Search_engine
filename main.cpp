@@ -39,8 +39,15 @@ int main(){
         cout << "9. Exit\n";
         cout << "Choose: ";
 
-        int choice;
-        cin >> choice;
+        string choice_str;
+        int choice = -1;
+        cout << "Choose: ";
+        getline(cin, choice_str);
+        try {
+           choice = stoi(choice_str);
+        } catch (...) {
+              choice = -1;
+        }
 
         string query;
         switch (choice){
