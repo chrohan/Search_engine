@@ -14,7 +14,7 @@
 using namespace std;
 
 // Debug function to print word details
-void debug_print_word(const string& word, const string& label) {
+void debug_print_word(const string& word, const string& label){
     cout << label << ": '" << word << "' (length: " << word.length() << ")";
     cout << " [";
     for (size_t i = 0; i < word.length(); i++) {
@@ -25,7 +25,7 @@ void debug_print_word(const string& word, const string& label) {
 }
 
 // Debug function to print first few words from file
-void debug_print_loaded_words(const vector<string>& words) {
+void debug_print_loaded_words(const vector<string>& words){
     cout << "\n=== DEBUG: First 10 words loaded from file ===\n";
     for (size_t i = 0; i < min(words.size(), (size_t)10); i++) {
         debug_print_word(words[i], "Word " + to_string(i));
@@ -34,7 +34,7 @@ void debug_print_loaded_words(const vector<string>& words) {
 }
 
 // Function to remove whitespace from string
-string trim(const string& str) {
+string trim(const string& str){
     size_t first = str.find_first_not_of(' ');
     if (string::npos == first) {
         return str;
@@ -44,10 +44,10 @@ string trim(const string& str) {
 }
 
 // Function to remove all whitespace characters including newlines
-string clean_word(const string& str) {
+string clean_word(const string& str){
     string result;
     for (char c : str) {
-        if (c != ' ' && c != '\t' && c != '\n' && c != '\r') {
+        if (c != ' ' && c != '\t' && c != '\n' && c != '\r'){
             result += c;
         }
     }
@@ -71,7 +71,7 @@ int main(){
         
         // Clean ing words and insert into trie
         vector<string> cleaned_words;
-        for (const string& word : words) {
+        for (const string& word : words){
             string cleaned = clean_word(word);
             if (!cleaned.empty()) {
                 cleaned_words.push_back(cleaned);
@@ -90,12 +90,12 @@ int main(){
         // Storing the cleaned words for search
         words = cleaned_words;
         
-    } catch (const exception& e) {
+    } catch(const exception& e){
         cout << "Error loading file: " << e.what() << endl;
         return 1;
     }
     
-    while (true) {
+    while (true){
         cout << "\n===== MENU =====\n";
         cout << "1. Trie: Insert word\n";
         cout << "2. Trie: Search exact\n";
@@ -115,20 +115,20 @@ int main(){
         
         try {
             choice = stoi(choice_str);
-        } catch (...) {
+        } catch (...){
             choice = -1;
         }
         
         string query;
-        switch (choice) {
+        switch (choice){
         case 1:
             cout << "Enter word to insert: ";
             getline(cin, query);
-            if (!query.empty()) {
+            if (!query.empty()){
                 string cleaned = clean_word(query);
                 trie.insert(cleaned);
                 cout << "Inserted cleaned word: '" << cleaned << "'\n";
-            } else {
+            } else{
                 cout << "Empty input. Nothing inserted.\n";
             }
             break;
@@ -136,12 +136,12 @@ int main(){
         case 2:
             cout << "Enter word to search: ";
             getline(cin, query);
-            if (!query.empty()) {
+            if (!query.empty()){
                 string cleaned = clean_word(query);
                 debug_print_word(cleaned, "Searching for");
                 bool found = trie.search_exact(cleaned);
                 cout << (found ? "Found.\n" : "Not Found.\n");
-            } else {
+            } else{
                 cout << "Empty input.\n";
             }
             break;
@@ -149,14 +149,14 @@ int main(){
         case 3:
             cout << "Enter prefix to search: ";
             getline(cin, query);
-            if (!query.empty()) {
+            if (!query.empty()){
                 string cleaned = clean_word(query);
                 vector<string> res = trie.search_pre(cleaned);
-                if (res.empty()) {
+                if(res.empty()){
                     cout << "No words found with prefix '" << cleaned << "'.\n";
-                } else {
+                } else{
                     cout << "Found " << res.size() << " word(s):\n";
-                    for (const string& w : res) {
+                    for (const string& w : res){
                         cout << w << "\n";
                     }
                 }
@@ -168,11 +168,11 @@ int main(){
         case 4:
             cout << "Enter word to delete: ";
             getline(cin, query);
-            if (!query.empty()) {
+            if(!query.empty()){
                 string cleaned = clean_word(query);
                 trie.remove(cleaned);
                 cout << "Deleted '" << cleaned << "'.\n";
-            } else {
+            }else{
                 cout << "Empty input. Nothing deleted.\n";
             }
             break;
@@ -184,10 +184,10 @@ int main(){
         case 6:
             cout << "Enter word to search (linear): ";
             getline(cin, query);
-            if (!query.empty()) {
+            if(!query.empty()){
                 string cleaned = clean_word(query);
                 cout << (linear_search_exact(words, cleaned) ? "Found.\n" : "Not Found.\n");
-            } else {
+            }else{
                 cout << "Empty input.\n";
             }
             break;
@@ -195,18 +195,18 @@ int main(){
         case 7:
             cout << "Enter prefix to search (linear): ";
             getline(cin, query);
-            if (!query.empty()) {
+            if(!query.empty()){
                 string cleaned = clean_word(query);
                 vector<string> res = linear_search_pre(words, cleaned);
                 if (res.empty()) {
                     cout << "No words found with prefix '" << cleaned << "'.\n";
-                } else {
+                }else{
                     cout << "Found " << res.size() << " word(s):\n";
                     for (const string& w : res) {
                         cout << w << "\n";
                     }
                 }
-            } else {
+            }else{
                 cout << "Empty input.\n";
             }
             break;
@@ -214,18 +214,18 @@ int main(){
         case 8:
             cout << "Enter pattern to search (KMP): ";
             getline(cin, query);
-            if (!query.empty()) {
+            if(!query.empty()){
                 string cleaned = clean_word(query);
                 vector<string> res = search(words, cleaned);
                 if (res.empty()) {
                     cout << "No words found containing pattern '" << cleaned << "'.\n";
-                } else {
+                }else{
                     cout << "Found " << res.size() << " word(s):\n";
                     for (const string& w : res) {
                         cout << w << "\n";
                     }
                 }
-            } else {
+            }else{
                 cout << "Empty input.\n";
             }
             break;
@@ -233,22 +233,22 @@ int main(){
         case 9:
             cout << "Enter word to debug search: ";
             getline(cin, query);
-            if (!query.empty()) {
+            if (!query.empty()){
                 string cleaned = clean_word(query);
                 debug_print_word(query, "Original input");
                 debug_print_word(cleaned, "Cleaned input");
                 
                 // Check if it exists in the vector
                 bool found_in_vector = false;
-                for (const string& w : words) {
-                    if (w == cleaned) {
+                for (const string& w : words){
+                    if(w == cleaned){
                         found_in_vector = true;
                         break;
                     }
                 }
                 cout << "Found in words vector: " << (found_in_vector ? "YES" : "NO") << "\n";
                 cout << "Found in trie: " << (trie.search_exact(cleaned) ? "YES" : "NO") << "\n";
-            } else {
+            }else{
                 cout << "Empty input.\n";
             }
             break;
